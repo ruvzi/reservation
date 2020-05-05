@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: tables
+#
+#  id            :bigint           not null, primary key
+#  number        :string
+#  reserved      :boolean          default(FALSE)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  restaurant_id :bigint           not null
+#
+# Indexes
+#
+#  index_tables_on_reserved       (reserved)
+#  index_tables_on_restaurant_id  (restaurant_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (restaurant_id => restaurants.id)
+#
+
+one:
+  restaurant: one
+  number: MyString
+  reserved: false
+
+two:
+  restaurant: two
+  number: MyString
+  reserved: false

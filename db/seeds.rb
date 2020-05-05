@@ -3,5 +3,16 @@
 #
 # Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+
+10.times do
+  ::Restaurant.create(name: Faker::Restaurant.name, description: Faker::Restaurant.description)
+end
+
+15.times do
+  User.create(name: Faker::Name.name, phone: Faker::PhoneNumber.phone_number)
+end
+
+::Restaurant.find_each do |restaurant|
+  (5..10).to_a.shuffle.first.times { |n| restaurant.tables.create(number: "Столик №#{n + 1}") }
+end

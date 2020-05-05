@@ -1,0 +1,379 @@
+  [1m[35m (518.3ms)[0m  [1m[35mCREATE DATABASE "reservation_development" ENCODING = 'unicode'[0m
+  [1m[35m (371.6ms)[0m  [1m[35mCREATE DATABASE "reservation_test" ENCODING = 'unicode'[0m
+  [1m[35m (15.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (7.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_try_advisory_lock(438580479513991710)[0m
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateRestaurants (20200505132751)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (12.6ms)[0m  [1m[35mCREATE TABLE "restaurants" ("id" bigserial primary key, "name" character varying, "description" text, "working_time" json, "tables_count" integer, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200505132751"]]
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.8ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2020-05-05 13:31:54.556862"], ["updated_at", "2020-05-05 13:31:54.556862"]]
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(438580479513991710)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(438580479513991710)[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20200505133605)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (10.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "name" character varying, "phone" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200505133605"]]
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.8ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(438580479513991710)[0m
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(438580479513991710)[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateTables (20200505140205)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (14.8ms)[0m  [1m[35mCREATE TABLE "tables" ("id" bigserial primary key, "restaurant_id" bigint NOT NULL, "number" character varying, "reserved" boolean DEFAULT FALSE, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_0700cfe41e"
+FOREIGN KEY ("restaurant_id")
+  REFERENCES "restaurants" ("id")
+)[0m
+  [1m[35m (3.8ms)[0m  [1m[35mCREATE  INDEX  "index_tables_on_restaurant_id" ON "tables"  ("restaurant_id")[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE  INDEX  "index_tables_on_reserved" ON "tables"  ("reserved")[0m
+  [1m[36mprimary::SchemaMigration Create (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200505140205"]]
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(438580479513991710)[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(438580479513991710)[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateTableReservations (20200505140742)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (9.8ms)[0m  [1m[35mCREATE TABLE "table_reservations" ("id" bigserial primary key, "table_id" bigint NOT NULL, "user_id" bigint NOT NULL, "reserved_from" timestamp, "reserved_to" timestamp, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_277ea224fd"
+FOREIGN KEY ("table_id")
+  REFERENCES "tables" ("id")
+, CONSTRAINT "fk_rails_28681b13ff"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE  INDEX  "index_table_reservations_on_table_id" ON "table_reservations"  ("table_id")[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE  INDEX  "index_table_reservations_on_user_id" ON "table_reservations"  ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20200505140742"]]
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (4.7ms)[0m  [1m[34mSELECT pg_advisory_unlock(438580479513991710)[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (1.7ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "71 BBQ"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (1.0ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "71 BBQ"], ["description", "Our mission has been to help people achieve their health and wellness goals. though weve changed over the years, our values have remained the same."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.036830"], ["updated_at", "2020-05-05 14:57:29.036830"]]
+  [1m[35m (2.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Smokestack Diner"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (0.7ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Smokestack Diner"], ["description", "Our mission is to be a leader in the distribution and merchandising of food, pharmacy, health and personal care items, seasonal merchandise, and related products and services. We place considerable importance on forging strong supplier partnerships. Our suppliers, large or small, local or global, are essential components in accomplishing our mission."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.057236"], ["updated_at", "2020-05-05 14:57:29.057236"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Big Gastropub"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (1.9ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Big Gastropub"], ["description", "We earn the loyalty of the people we serve by first anticipating, then fulfilling their needs with our superior-quality products, a unique shopping experience, customer-focused service and continuous innovation, while generating long-term profitable growth for our shareholders."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.077311"], ["updated_at", "2020-05-05 14:57:29.077311"]]
+  [1m[35m (8.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "8353 Creamery"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (0.7ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "8353 Creamery"], ["description", "To sell delicious and remarkable food and drinks. That the food and drink we sell meets the highest standards of quality, freshness and seasonality and combines both modern-creative and traditional southern styles of cooking. To consistently provide our customers with impeccable service by demonstrating warmth, graciousness, efficiency, knowledge, professionalism and integrity in our work. To have every customer who comes through our doors leave impressed by Maxie’s and excited to come back again. To create and maintain a restaurant that is comprehensive and exceptional in its attention to every detail of operation. To provide all who work with us a friendly, cooperative and rewarding environment which encourages long- term, satisfying, growth employment. To keep our concept fresh, exciting and on the cutting edge of the hospitality and entertainment industry. To be a giving member of the Ithaca community and to use our restaurant to improve the quality of life in the Finger Lakes region."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.106311"], ["updated_at", "2020-05-05 14:57:29.106311"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Green Box"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (0.7ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Green Box"], ["description", "Yoshinoya is in business to create the structure and systems needed to allow our customers access to the majority of their away-from-home daily meal requirements on a one-stop-shop basis. All our products shall be of the highest quality and value, be healthy, nutritious and provided with outstanding personal services at the lowest possible prices consistent with a fair return on investment for our shareholders, job enhancementsecurity for our employees and a level of community involvement by everyone connected with our business. All of our products and services shall be delivered consistently and measured one satisfied customer at a time, whether by company-owned or franchised operations, in superior, clean, convenient, fun and friendly neighborhood environments. We pledge to make Yoshinoya the best place to eat and the best place to work."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.135683"], ["updated_at", "2020-05-05 14:57:29.135683"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Fat Gastropub"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (0.6ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Fat Gastropub"], ["description", "Our Mission at Denny’s is to establish beneficial business relationships with diverse suppliers who share our commitment to customer service, quality and competitive pricing."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.191528"], ["updated_at", "2020-05-05 14:57:29.191528"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Hungry Bakery"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (0.8ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Hungry Bakery"], ["description", "Our Mission at Denny’s is to establish beneficial business relationships with diverse suppliers who share our commitment to customer service, quality and competitive pricing."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.240488"], ["updated_at", "2020-05-05 14:57:29.240488"]]
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Smokestack Dragon"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (0.6ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Smokestack Dragon"], ["description", "Yoshinoya is in business to create the structure and systems needed to allow our customers access to the majority of their away-from-home daily meal requirements on a one-stop-shop basis. All our products shall be of the highest quality and value, be healthy, nutritious and provided with outstanding personal services at the lowest possible prices consistent with a fair return on investment for our shareholders, job enhancementsecurity for our employees and a level of community involvement by everyone connected with our business. All of our products and services shall be delivered consistently and measured one satisfied customer at a time, whether by company-owned or franchised operations, in superior, clean, convenient, fun and friendly neighborhood environments. We pledge to make Yoshinoya the best place to eat and the best place to work."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.300981"], ["updated_at", "2020-05-05 14:57:29.300981"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Sweet Pub"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (1.1ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Sweet Pub"], ["description", "We are committed to using the finest ingredients in our recipes. No food leaves our kitchen that we ourselves would not eat."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.332895"], ["updated_at", "2020-05-05 14:57:29.332895"]]
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mRestaurant Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "restaurants" WHERE "restaurants"."name" = $1 LIMIT $2[0m  [["name", "Sweet Bar & Grill"], ["LIMIT", 1]]
+  [1m[36mRestaurant Create (0.5ms)[0m  [1m[32mINSERT INTO "restaurants" ("name", "description", "working_time", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "Sweet Bar & Grill"], ["description", "Our mission has been to help people achieve their health and wellness goals. though weve changed over the years, our values have remained the same."], ["working_time", "{\"1\":{\"day\":\"понеділок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"2\":{\"day\":\"вівторок\",\"from\":\"10:30\",\"to\":\"02:00\"},\"3\":{\"day\":\"середа\",\"from\":\"10:30\",\"to\":\"02:00\"},\"4\":{\"day\":\"четвер\",\"from\":\"10:30\",\"to\":\"02:00\"},\"5\":{\"day\":\"п'ятниця\",\"from\":\"10:30\",\"to\":\"02:00\"},\"6\":{\"day\":\"субота\",\"from\":\"10:30\",\"to\":\"02:00\"},\"7\":{\"day\":\"неділя\",\"from\":\"10:30\",\"to\":\"02:00\"}}"], ["created_at", "2020-05-05 14:57:29.368406"], ["updated_at", "2020-05-05 14:57:29.368406"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.9ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Любослава Скиба"], ["phone", "(050) 267-61-87"], ["created_at", "2020-05-05 14:57:29.436499"], ["updated_at", "2020-05-05 14:57:29.436499"]]
+  [1m[35m (2.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Лук’ян Олександрович Ганич"], ["phone", "(044) 137-81-71"], ["created_at", "2020-05-05 14:57:29.450017"], ["updated_at", "2020-05-05 14:57:29.450017"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Шевченко Антоніна"], ["phone", "(099) 476-90-01"], ["created_at", "2020-05-05 14:57:29.460393"], ["updated_at", "2020-05-05 14:57:29.460393"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Віола Шкараба"], ["phone", "(066) 924-13-13"], ["created_at", "2020-05-05 14:57:29.470660"], ["updated_at", "2020-05-05 14:57:29.470660"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Сучак Микола"], ["phone", "(097) 489-08-62"], ["created_at", "2020-05-05 14:57:29.480050"], ["updated_at", "2020-05-05 14:57:29.480050"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Саєнко Агнія"], ["phone", "(044) 746-68-79"], ["created_at", "2020-05-05 14:57:29.489936"], ["updated_at", "2020-05-05 14:57:29.489936"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Арсеній Дмитрович Ломовий"], ["phone", "(097) 532-39-62"], ["created_at", "2020-05-05 14:57:29.500354"], ["updated_at", "2020-05-05 14:57:29.500354"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Ян Орестович Майстренко"], ["phone", "(063) 988-17-01"], ["created_at", "2020-05-05 14:57:29.510202"], ["updated_at", "2020-05-05 14:57:29.510202"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Махно Лада В’ячеславівна"], ["phone", "(066) 449-99-98"], ["created_at", "2020-05-05 14:57:29.520199"], ["updated_at", "2020-05-05 14:57:29.520199"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Латаний Градимир"], ["phone", "(099) 424-77-61"], ["created_at", "2020-05-05 14:57:29.531141"], ["updated_at", "2020-05-05 14:57:29.531141"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Левко Ярмак"], ["phone", "(097) 390-95-22"], ["created_at", "2020-05-05 14:57:29.541424"], ["updated_at", "2020-05-05 14:57:29.541424"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Святослава Федоришина"], ["phone", "(093) 449-16-03"], ["created_at", "2020-05-05 14:57:29.550986"], ["updated_at", "2020-05-05 14:57:29.550986"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Сосюра Братимир Олександрович"], ["phone", "(050) 346-51-19"], ["created_at", "2020-05-05 14:57:29.561267"], ["updated_at", "2020-05-05 14:57:29.561267"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.5ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Лящук Зборислав Радимирович"], ["phone", "(095) 393-51-69"], ["created_at", "2020-05-05 14:57:29.571611"], ["updated_at", "2020-05-05 14:57:29.571611"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("name", "phone", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Пономарів Градимир Родіонович"], ["phone", "(096) 121-04-55"], ["created_at", "2020-05-05 14:57:29.583842"], ["updated_at", "2020-05-05 14:57:29.583842"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mRestaurant Load (0.7ms)[0m  [1m[34mSELECT "restaurants".* FROM "restaurants" ORDER BY "restaurants"."id" ASC LIMIT $1[0m  [["LIMIT", 1000]]
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (1.3ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:29.655773"], ["updated_at", "2020-05-05 14:57:29.655773"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:29.669813"], ["updated_at", "2020-05-05 14:57:29.669813"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:29.682341"], ["updated_at", "2020-05-05 14:57:29.682341"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:29.695636"], ["updated_at", "2020-05-05 14:57:29.695636"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:29.709312"], ["updated_at", "2020-05-05 14:57:29.709312"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:29.721897"], ["updated_at", "2020-05-05 14:57:29.721897"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №7"], ["created_at", "2020-05-05 14:57:29.733611"], ["updated_at", "2020-05-05 14:57:29.733611"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 1], ["number", "Столик №8"], ["created_at", "2020-05-05 14:57:29.746707"], ["updated_at", "2020-05-05 14:57:29.746707"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 2], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:29.759255"], ["updated_at", "2020-05-05 14:57:29.759255"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 2], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:29.772434"], ["updated_at", "2020-05-05 14:57:29.772434"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 2], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:29.784710"], ["updated_at", "2020-05-05 14:57:29.784710"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 2], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:29.796809"], ["updated_at", "2020-05-05 14:57:29.796809"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 2], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:29.808955"], ["updated_at", "2020-05-05 14:57:29.808955"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.4ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 2], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:29.822036"], ["updated_at", "2020-05-05 14:57:29.822036"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.4ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 3], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:29.834033"], ["updated_at", "2020-05-05 14:57:29.834033"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 3], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:29.845784"], ["updated_at", "2020-05-05 14:57:29.845784"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 3], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:29.858211"], ["updated_at", "2020-05-05 14:57:29.858211"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 3], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:29.870952"], ["updated_at", "2020-05-05 14:57:29.870952"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.8ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 3], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:29.883933"], ["updated_at", "2020-05-05 14:57:29.883933"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 4], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:29.897791"], ["updated_at", "2020-05-05 14:57:29.897791"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 4], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:29.910281"], ["updated_at", "2020-05-05 14:57:29.910281"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 4], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:29.923368"], ["updated_at", "2020-05-05 14:57:29.923368"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 4], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:29.941517"], ["updated_at", "2020-05-05 14:57:29.941517"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 4], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:29.955191"], ["updated_at", "2020-05-05 14:57:29.955191"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 4], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:29.968588"], ["updated_at", "2020-05-05 14:57:29.968588"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 4], ["number", "Столик №7"], ["created_at", "2020-05-05 14:57:29.981726"], ["updated_at", "2020-05-05 14:57:29.981726"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:29.994359"], ["updated_at", "2020-05-05 14:57:29.994359"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:30.007987"], ["updated_at", "2020-05-05 14:57:30.007987"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:30.019541"], ["updated_at", "2020-05-05 14:57:30.019541"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:30.032349"], ["updated_at", "2020-05-05 14:57:30.032349"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:30.044659"], ["updated_at", "2020-05-05 14:57:30.044659"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:30.058203"], ["updated_at", "2020-05-05 14:57:30.058203"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №7"], ["created_at", "2020-05-05 14:57:30.071202"], ["updated_at", "2020-05-05 14:57:30.071202"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 5], ["number", "Столик №8"], ["created_at", "2020-05-05 14:57:30.090071"], ["updated_at", "2020-05-05 14:57:30.090071"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 6], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:30.104343"], ["updated_at", "2020-05-05 14:57:30.104343"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 6], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:30.117802"], ["updated_at", "2020-05-05 14:57:30.117802"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 6], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:30.129866"], ["updated_at", "2020-05-05 14:57:30.129866"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 6], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:30.145869"], ["updated_at", "2020-05-05 14:57:30.145869"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 6], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:30.158169"], ["updated_at", "2020-05-05 14:57:30.158169"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 6], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:30.170634"], ["updated_at", "2020-05-05 14:57:30.170634"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:30.185007"], ["updated_at", "2020-05-05 14:57:30.185007"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:30.197211"], ["updated_at", "2020-05-05 14:57:30.197211"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:30.210751"], ["updated_at", "2020-05-05 14:57:30.210751"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:30.225957"], ["updated_at", "2020-05-05 14:57:30.225957"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:30.239000"], ["updated_at", "2020-05-05 14:57:30.239000"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:30.252646"], ["updated_at", "2020-05-05 14:57:30.252646"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №7"], ["created_at", "2020-05-05 14:57:30.265192"], ["updated_at", "2020-05-05 14:57:30.265192"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №8"], ["created_at", "2020-05-05 14:57:30.278906"], ["updated_at", "2020-05-05 14:57:30.278906"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №9"], ["created_at", "2020-05-05 14:57:30.290884"], ["updated_at", "2020-05-05 14:57:30.290884"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.8ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 7], ["number", "Столик №10"], ["created_at", "2020-05-05 14:57:30.304122"], ["updated_at", "2020-05-05 14:57:30.304122"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.8ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 8], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:30.319463"], ["updated_at", "2020-05-05 14:57:30.319463"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.9ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 8], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:30.334249"], ["updated_at", "2020-05-05 14:57:30.334249"]]
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.9ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 8], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:30.351915"], ["updated_at", "2020-05-05 14:57:30.351915"]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.8ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 8], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:30.368434"], ["updated_at", "2020-05-05 14:57:30.368434"]]
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.8ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 8], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:30.386034"], ["updated_at", "2020-05-05 14:57:30.386034"]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 8], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:30.402001"], ["updated_at", "2020-05-05 14:57:30.402001"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.8ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 9], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:30.417896"], ["updated_at", "2020-05-05 14:57:30.417896"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 9], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:30.472927"], ["updated_at", "2020-05-05 14:57:30.472927"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 9], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:30.485840"], ["updated_at", "2020-05-05 14:57:30.485840"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 9], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:30.497636"], ["updated_at", "2020-05-05 14:57:30.497636"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 9], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:30.510834"], ["updated_at", "2020-05-05 14:57:30.510834"]]
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 9], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:30.522625"], ["updated_at", "2020-05-05 14:57:30.522625"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 10], ["number", "Столик №1"], ["created_at", "2020-05-05 14:57:30.534225"], ["updated_at", "2020-05-05 14:57:30.534225"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 10], ["number", "Столик №2"], ["created_at", "2020-05-05 14:57:30.545993"], ["updated_at", "2020-05-05 14:57:30.545993"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.4ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 10], ["number", "Столик №3"], ["created_at", "2020-05-05 14:57:30.558280"], ["updated_at", "2020-05-05 14:57:30.558280"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.5ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 10], ["number", "Столик №4"], ["created_at", "2020-05-05 14:57:30.569923"], ["updated_at", "2020-05-05 14:57:30.569923"]]
+  [1m[35m (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 10], ["number", "Столик №5"], ["created_at", "2020-05-05 14:57:30.589071"], ["updated_at", "2020-05-05 14:57:30.589071"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.6ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 10], ["number", "Столик №6"], ["created_at", "2020-05-05 14:57:30.602453"], ["updated_at", "2020-05-05 14:57:30.602453"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTable Create (0.7ms)[0m  [1m[32mINSERT INTO "tables" ("restaurant_id", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["restaurant_id", 10], ["number", "Столик №7"], ["created_at", "2020-05-05 14:57:30.614775"], ["updated_at", "2020-05-05 14:57:30.614775"]]
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "users"[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "restaurants"[0m
+  [1m[36mRestaurant Load (0.7ms)[0m  [1m[34mSELECT "restaurants".* FROM "restaurants" ORDER BY "restaurants"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRestaurant Load (0.7ms)[0m  [1m[34mSELECT "restaurants".* FROM "restaurants" ORDER BY "restaurants"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mRestaurant Load (0.7ms)[0m  [1m[34mSELECT "restaurants".* FROM "restaurants" ORDER BY "restaurants"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "tables" WHERE "tables"."restaurant_id" = $1 AND "tables"."reserved" = $2[0m  [["restaurant_id", 1], ["reserved", true]]
+  [1m[36mTable Load (0.8ms)[0m  [1m[34mSELECT "tables".* FROM "tables" WHERE "tables"."restaurant_id" = $1 AND "tables"."reserved" = $2 ORDER BY "tables"."id" ASC LIMIT $3[0m  [["restaurant_id", 1], ["reserved", false], ["LIMIT", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTableReservation Load (1.4ms)[0m  [1m[34mSELECT "table_reservations".* FROM "table_reservations" WHERE "table_reservations"."table_id" = $1 AND (reserved_from <= '2020-05-05 11:02:36.611585' or reserved_to > '2020-05-05 11:05:06.611585')[0m  [["table_id", 1]]
+  [1m[36mRestaurant Load (0.7ms)[0m  [1m[34mSELECT "restaurants".* FROM "restaurants" ORDER BY "restaurants"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTable Load (1.0ms)[0m  [1m[34mSELECT "tables".* FROM "tables" WHERE "tables"."restaurant_id" = $1 AND "tables"."reserved" = $2 ORDER BY "tables"."id" ASC LIMIT $3[0m  [["restaurant_id", 1], ["reserved", false], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTableReservation Load (1.1ms)[0m  [1m[34mSELECT "table_reservations".* FROM "table_reservations" WHERE "table_reservations"."table_id" = $1 AND (reserved_from <= '2020-05-05 11:03:25.977739' or reserved_to > '2020-05-05 11:05:55.977739')[0m  [["table_id", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTableReservation Create (1.8ms)[0m  [1m[32mINSERT INTO "table_reservations" ("table_id", "user_id", "reserved_from", "reserved_to", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["table_id", 1], ["user_id", 15], ["reserved_from", "2020-05-05 11:03:25.977739"], ["reserved_to", "2020-05-05 13:33:25.977739"], ["created_at", "2020-05-05 15:03:26.054976"], ["updated_at", "2020-05-05 15:03:26.054976"]]
+  [1m[36mTable Update (0.7ms)[0m  [1m[33mUPDATE "tables" SET "reserved" = $1, "updated_at" = $2 WHERE "tables"."id" = $3[0m  [["reserved", true], ["updated_at", "2020-05-05 15:03:26.063557"], ["id", 1]]
+  [1m[35m (1.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTableReservation Load (0.7ms)[0m  [1m[34mSELECT "table_reservations".* FROM "table_reservations" WHERE "table_reservations"."table_id" = $1 AND (reserved_from <= '2020-05-05 11:03:57.248693' or reserved_to > '2020-05-05 11:05:57.248693')[0m  [["table_id", 1]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mTableReservation Load (3.1ms)[0m  [1m[34mSELECT "table_reservations".* FROM "table_reservations" WHERE "table_reservations"."table_id" = $1 AND (reserved_from <= '2020-05-05 11:04:02.135980' or reserved_to > '2020-05-05 11:07:02.135980')[0m  [["table_id", 1]]
+  [1m[36mTable Load (0.6ms)[0m  [1m[34mSELECT "tables".* FROM "tables" ORDER BY "tables"."id" DESC LIMIT $1[0m  [["LIMIT", 1]]
